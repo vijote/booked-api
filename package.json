@@ -1,0 +1,27 @@
+{
+  "name": "nodeSequelizeApi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.783.0",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-validator": "^6.6.1",
+    "getmac": "^5.17.0",
+    "jwt-simple": "^0.5.6",
+    "macaddress": "^0.5.1",
+    "moment": "^2.29.1",
+    "mysql2": "^2.2.5",
+    "nodemailer": "^6.4.14",
+    "os": "^0.1.1",
+    "sequelize": "^6.3.5"
+  }
+}
