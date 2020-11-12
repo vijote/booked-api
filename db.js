@@ -1,35 +1,42 @@
+// === import of the necessary packages ===
 const Sequelize = require('sequelize');
 const BookModel = require('./models/books');
 const UserModel = require('./models/users');
 
-
-const sequelize = new Sequelize('2iuHvivVDt', '2iuHvivVDt', 'KRWNCWpt2L', {
+// === sequelize connection to the database ===
+const sequelize = new Sequelize( process.env.DBNAME, process.env.DBUSER ,process.env.DBPASS , {
     host: 'remotemysql.com',
     dialect: 'mysql'
 });
 
-const Book = BookModel(sequelize, Sequelize);
-const User = UserModel(sequelize, Sequelize);
+// === initialization of the models ===
+const Book = BookModel(sequelize, Sequelize); // books table
+const User = UserModel(sequelize, Sequelize); // users tale
+const Purchases = sequelize.define('purchases', {}); // purchases made from users
 
-Book.belongsToMany(User, { through: "book_user" });
+// === creation of the relationship through intermmediate table ===
+Book.belongsToMany(User, { through: "purchases" });
+User.belongsToMany(Book, { through: "purchases" });
 
-User.belongsToMany(Book, { through: "book_user" });
-
+// === definition of function to buy books ===
 Book.buyBook = async (bookId, userId) => {
     try{
+        // search for the book with the id specified
         const book = await Book.findByPk(bookId);
         if (!book) {
             console.log("Book not found!");
             return null;
           }
 
+        // then search for the user with the id specified
         const user = await User.findByPk(userId);
         if (!user) {
             console.log("User not found!");
             return null;
         }
 
-        await book.addUser(user, { through: "book_user" });
+        // finally, 'buy' the book and store it in the table
+        await book.addUser(user, { through: "purchases" });
         console.log(`User ${user.id} buyed book ${book.id}!`);
         return book;
 
@@ -38,12 +45,15 @@ Book.buyBook = async (bookId, userId) => {
     }
   };
 
+// each time the server starts, the tables will be deleted and recreated
 sequelize.sync({ force: true })
     .then(()=> {
         console.log('tables synchronized!')
     });
 
+// exports an object
 module.exports = {
     Book,
-    User
+    User,
+    Purchases
 }

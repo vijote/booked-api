@@ -1,15 +1,15 @@
-
-
-
+// exports a function 
 module.exports = (sequelize, type) => {
-    return sequelize.define('user', {
+    // this function creates and returns a model
+    return sequelize.define('user', { // the name is 'user' and the fields:
         id: {
             type: type.UUID,
             defaultValue: type.UUIDV4,
             primaryKey: true,
         },
-        mac: {
-            type: type.STRING(50),
+        device: {
+            type: type.UUID,
+            defaultValue: type.UUIDV4,
         },
         email: type.STRING(50),
         password: type.STRING(150)

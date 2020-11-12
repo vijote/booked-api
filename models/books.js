@@ -1,8 +1,7 @@
-const express = require('express');
-const location = __dirname + '/static';
-
+// exports a function
 module.exports = (sequelize, type) => {
-    return sequelize.define('book', {
+    // this function defines and returns a model
+    return sequelize.define('book', { // named 'book' with the fields:
         id: {
             type: type.UUID,
             defaultValue: type.UUIDV4,
@@ -12,9 +11,7 @@ module.exports = (sequelize, type) => {
         title: type.STRING,
         description: type.STRING,
         author: type.STRING,
-        file: {
-            type: type.STRING,
-            defaultValue: location
-        }
+        file: type.STRING,
+        price: type.INTEGER
     });
 }
