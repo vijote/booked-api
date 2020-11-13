@@ -46,7 +46,7 @@ Book.buyBook = async (bookId, userId) => {
   };
 
 // each time the server starts, the tables will be deleted and recreated
-sequelize.sync({ force: true })
+sequelize.sync({ force: false })
     .then(()=> {
         console.log('tables synchronized!')
     });
